@@ -1,0 +1,70 @@
+<h1 class="container mt-5">All Recipes</h1>
+<div class="d-flex align-items-center mt-5 container">
+  <span>Search:  </span>
+  <input
+  [(ngModel)]="searchKey"
+    type="text"
+    class="form-control ms-2 w-25 me-5"
+    placeholder="Search By Recipe Name or Cuisine"
+  />
+  <div class="dropdown">
+    <button
+      class="btn btn-secondary dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      
+    >
+      Categorize By Meal Type
+    </button>
+    <ul class="dropdown-menu">
+      <li><button (click)="viewMealType('Breakfast')"  class="dropdown-item">Breakfast</button></li>
+      <li><button (click)="viewMealType('Lunch')" class="dropdown-item">Lunch</button></li>
+      <li><button (click)="viewMealType('Snacks')" class="dropdown-item">Snacks</button></li>
+      <li><button (click)="viewMealType('Dinner')" class="dropdown-item">Dinner</button></li>
+
+
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+    <div
+  style="width: 100%;"
+  class="row d-flex justify-content-start gap-5 w-100 align-items-center mt-5 mb-5"
+>
+  <div class="card  mt-5 p-0" style="width: 18rem;overflow: hidden;" *ngFor="let recipe of allRecipes | search : searchKey | paginate: { itemsPerPage: 10, currentPage: page }">
+    <img style=" width: 290px; " src={{recipe.image}} class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{recipe.name}}</h5>
+      <p class="card-text">
+        <span>Cuisine:</span> {{recipe.cuisine}}
+      </p>
+      <a href="#" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Get Recipee</a>
+      <!-- Modal -->
+      <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Recipee</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3 class="mb-5 text-center fw-bolder"> {{recipe.name}} </h3>
+              <h5 class="mb-5">Difficulty: {{recipe.difficulty}}</h5>
+              <p><span class="fw-bolder">Ingredients:</span> {{recipe.ingredients}} </p>
+              <p><span class="fw-bolder">Instructions:</span> {{recipe.instructions}} </p>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls class="text-center" (pageChange)="page = $event"></pagination-controls>
+</div>
+</div>
